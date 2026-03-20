@@ -10,7 +10,8 @@ const App = (() => {
     const container = document.getElementById('splash-stars');
     if (!container) return;
     const frag = document.createDocumentFragment();
-    for (let i = 0; i < 100; i++) {
+    const count = window.innerWidth <= 640 ? 35 : 100;
+    for (let i = 0; i < count; i++) {
       const s = document.createElement('div');
       s.classList.add('splash-star');
       s.style.cssText =
@@ -58,6 +59,14 @@ const App = (() => {
   function enter (withMusic) {
     const splash = document.getElementById('splash');
     if (splash) splash.classList.add('hidden');
+
+    /* Desbloquear scroll y asegurar posición top */
+    document.documentElement.classList.remove('splash-open');
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('touch-action');
+    /* Forzar scroll al inicio — sin esto iOS/Android quedan scrolleados */
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
     Music.init(withMusic);
   }
 

@@ -47,6 +47,16 @@ section, footer {
 .music-btn:hover    { background: rgba(201,169,110,.14); transform: scale(1.08); }
 .music-btn.playing  { border-color: var(--gold); box-shadow: 0 0 22px rgba(201,169,110,.3); }
 
+/* ── Bloquea scroll mientras la splash está visible ── */
+html.splash-open,
+html.splash-open body {
+  overflow: hidden !important;
+  height: 100% !important;
+  /* Evita el "bounce" en iOS Safari */
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
 /* ── Splash ── */
 .splash-overlay {
   position: fixed; inset: 0; z-index: 9999;
@@ -704,37 +714,53 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 
 @media(max-width: 480px) {
   .section-inner { padding: 4rem 1.25rem; }
-  /* Countdown: reducir el padding enorme de 14rem a algo razonable en mobile */
   #countdown { padding: 5rem 1rem !important; }
-  /* Emma bigger on mobile — more dominant like desktop */
+
+  /* ── SPLASH: texto legible en mobile ── */
+  .splash-label-top  { font-size: .92rem !important; letter-spacing: .22em !important; }
+  .splash-label-date { font-size: .9rem  !important; letter-spacing: .18em !important; }
+  .splash-label-music{ font-size: .88rem !important; }
+  .btn-gold    { font-size: .88rem !important; padding: 1rem 1.8rem !important; }
+  .btn-outline { font-size: .88rem !important; padding: 1rem 1.8rem !important; }
+
+  /* ── Botón de música: más grande y visible ── */
+  .music-btn  { width: 58px !important; height: 58px !important; }
+  #music-icon { font-size: 1.55rem; }
+
+  /* ── Badges y etiquetas dentro de la página ── */
+  .badge      { font-size: .72rem !important; padding: .55rem 1.4rem !important; }
+  .form-label { font-size: .82rem !important; }
+  .form-input { font-size: .92rem !important; }
+  .radio-pill { font-size: .88rem !important; }
+
+  /* ── Textos de secciones ── */
   .hero-name { font-size: clamp(5.5rem, 30vw, 8.5rem); }
   .splash-name { font-size: clamp(3.8rem, 22vw, 7rem); }
   .section-title { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .info-sub   { font-size: .92rem !important; line-height: 1.85 !important; }
+  .section-eyebrow { font-size: .78rem !important; letter-spacing: .25em !important; }
+
+  /* ── Layout ── */
   .info-card { padding: 2rem 1.2rem; }
   .payment-row { flex-direction: column; align-items: flex-start; gap: .3rem; }
   .rsvp-form-card { border-radius: 18px; }
   .ticket-amount { font-size: 2.3rem; }
   .dresscode-circle { width: 130px; height: 130px; }
   .tickets-grid { max-width: 340px; }
-  /* Radio pills: que entren de a dos en la misma fila */
   .radio-pill { min-width: 0; flex: 1 1 calc(50% - .75rem); }
-  /* Hero — proporcional al font mobile 30vw */
+
+  /* ── Hero ── */
   .hero-subtitle {
     margin-top: calc(1rem - 10vw);
     margin-bottom: 1rem;
     font-size: clamp(.75rem, 3.5vw, .9rem);
     letter-spacing: .35em;
   }
-  .hero-quote {
-    font-size: clamp(1.35rem, 3vw, 1.75rem);
-    line-height: 1.85;
-  }
+  .hero-quote { font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.85; }
   .hero-divider { margin: 1.8rem 0; }
-  /* Hero watermark — scaled up to match Emma's new size */
   .hero-watermark {
     font-size: clamp(13rem, 60vw, 22rem);
-    top: 42%;
-    left: 53%;
+    top: 42%; left: 53%;
     transform: translate(-50%, -50%);
   }
 }
@@ -745,7 +771,13 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   .section-title { font-size: 1.9rem; }
 }
 
+@media(min-width: 640px) {
+  /* Restaurar el padding generoso del countdown en tablet y desktop */
+  #countdown { padding: 10rem 1rem !important; }
+}
+
 @media(min-width: 1280px) {
   .section-inner { padding: 6rem 2rem; }
   .tickets-grid { gap: 2rem; }
+  #countdown { padding: 14rem 1rem !important; }
 }

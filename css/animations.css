@@ -140,9 +140,12 @@
 .delay-5  { animation-delay: .6s  !important; transition-delay: .6s  !important; }
 .delay-6  { animation-delay: .8s  !important; transition-delay: .8s  !important; }
 
-/* ── Mobile: ocultar estrellas fugaces (quedan raras en pantallas chicas) ── */
+/* ── Mobile: ocultar estrellas fugaces y reducir brillos de fondo ── */
 @media (max-width: 640px) {
-  .shoot-star { display: none; }
+  .shoot-star    { display: none; }
+  #bg-canvas     { opacity: .28 !important; }
+  .section-sparkles { opacity: .4; }
+  .splash-star   { opacity: .55; }
 }
 
 /* ── Reduced motion ── */

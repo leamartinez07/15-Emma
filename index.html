@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth splash-open">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,15 +76,15 @@
   <div id="splash" class="splash-overlay" style="z-index:9999;">
     <div id="splash-stars" aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
     <div class="relative z-10 flex flex-col items-center gap-5 px-6 text-center" style="max-width:440px;margin:0 auto;">
-      <p class="font-sans uppercase" style="font-size:.7rem;color:rgba(201,169,110,.85);letter-spacing:.38em;font-weight:600;">
+      <p class="font-sans uppercase splash-label-top" style="font-size:.7rem;color:rgba(201,169,110,.85);letter-spacing:.38em;font-weight:600;">
         Bienvenidos a la invitación de
       </p>
       <h1 class="font-script splash-name" style="color:#e2c98a;">Emma</h1>
-      <p class="font-sans uppercase" style="font-size:.72rem;color:rgba(255,255,255,.65);letter-spacing:.28em;font-weight:500;">
+      <p class="font-sans uppercase splash-label-date" style="font-size:.72rem;color:rgba(255,255,255,.65);letter-spacing:.28em;font-weight:500;">
         Mis 15 Años &nbsp;·&nbsp; 22 de Agosto
       </p>
       <div class="divider-gold w-28"></div>
-      <p style="font-size:.78rem;color:rgba(255,255,255,.55);font-family:'Montserrat',sans-serif;font-weight:500;"> La música de fondo es parte de la experiencia</p>
+      <p class="splash-label-music" style="font-size:.78rem;color:rgba(255,255,255,.55);font-family:'Montserrat',sans-serif;font-weight:500;">La música de fondo es parte de la experiencia</p>
       <div class="flex gap-3 flex-wrap justify-center pt-1">
         <button onclick="App.enter(true)"  class="btn-gold">♪ &nbsp;Ingresar con música</button>
         <button onclick="App.enter(false)" class="btn-outline">Ingresar sin música</button>
@@ -131,7 +131,7 @@
     </div>
 
     <!-- ── COUNTDOWN ── -->
-    <section id="countdown" class="text-center" style="background:rgba(8,16,32,.97);padding:14rem 1rem 14rem;position:relative;overflow:hidden;">
+    <section id="countdown" class="text-center" style="background:rgba(8,16,32,.97);padding:5rem 1rem;position:relative;overflow:hidden;">
 
       <!-- Shooting stars — top zone -->
       <i class="shoot-star" aria-hidden="true" style="--top:8%;--left:2%;--dur:5.5s;--delay:0s;"></i>
