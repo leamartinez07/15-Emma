@@ -682,7 +682,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 @media(max-width: 639px) {
   #countdown .flex {
     flex-wrap: nowrap !important;
-    gap: .65rem;
+    gap: .5rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding-bottom: .5rem;
@@ -690,9 +690,9 @@ textarea.form-input { resize: vertical; min-height: 90px; }
     justify-content: center;
   }
   #countdown .flex::-webkit-scrollbar { display: none; }
-  .countdown-card { min-width: 72px; flex: 1 0 auto; padding: 1.1rem .7rem; }
-  .countdown-num  { font-size: 2rem; }
-  .countdown-unit { font-size: .56rem; letter-spacing: .18em; }
+  .countdown-card { min-width: 0; flex: 1 1 0; padding: 1rem .5rem; }
+  .countdown-num  { font-size: 1.8rem; }
+  .countdown-unit { font-size: .5rem; letter-spacing: .08em; }
 }
 
 /* Tablet range: keep "15" aligned behind Emma as viewport narrows */
@@ -707,6 +707,8 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 
 @media(max-width: 480px) {
   .section-inner { padding: 4rem 1.25rem; }
+  /* Countdown: reducir el padding enorme de 14rem a algo razonable en mobile */
+  #countdown { padding: 5rem 1rem !important; }
   /* Emma bigger on mobile — more dominant like desktop */
   .hero-name { font-size: clamp(5.5rem, 30vw, 8.5rem); }
   .splash-name { font-size: clamp(3.8rem, 22vw, 7rem); }
@@ -717,6 +719,8 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   .ticket-amount { font-size: 2.3rem; }
   .dresscode-circle { width: 130px; height: 130px; }
   .tickets-grid { max-width: 340px; }
+  /* Radio pills: que entren de a dos en la misma fila */
+  .radio-pill { min-width: 0; flex: 1 1 calc(50% - .75rem); }
   /* Hero — proporcional al font mobile 30vw */
   .hero-subtitle {
     margin-top: calc(1rem - 10vw);

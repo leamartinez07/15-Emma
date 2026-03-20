@@ -6,10 +6,12 @@
 
 const Music = (() => {
   const VIDEO_ID = 'd020hcWA_Wg'; // Clocks – Coldplay
+  const START_SEC = 4; // segundos a saltear (silencio inicial)
   const makeSrc  = () =>
     `https://www.youtube.com/embed/${VIDEO_ID}` +
     `?autoplay=1&loop=1&playlist=${VIDEO_ID}` +
-    `&controls=0&rel=0&modestbranding=1&mute=0`;
+    `&controls=0&rel=0&modestbranding=1&mute=0` +
+    `&start=${START_SEC}`;
 
   let playing = false;
 
