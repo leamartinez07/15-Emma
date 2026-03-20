@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 const Rsvp = (() => {
-  const WA_NUMBER = '542622649327';
+  const WA_NUMBER = '542622431552';
   let choice = null;
 
   const get = id => document.getElementById(id);
