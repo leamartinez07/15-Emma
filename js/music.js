@@ -7,7 +7,7 @@
 
 const Music = (() => {
   const VIDEO_ID  = 'd020hcWA_Wg'; // Clocks – Coldplay
-  const START_SEC = 8;              // segundos a saltear
+  const START_SEC = 5;              // segundos a saltear
 
   let player  = null;
   let playing = false;
