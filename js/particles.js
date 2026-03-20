@@ -115,13 +115,16 @@ const Particles = (() => {
 
   /* ── Public init ── */
   function init () {
+    const isMobile = window.innerWidth <= 640;
+
     /* Hero canvas */
     heroCanvas = document.getElementById('hero-canvas');
     if (heroCanvas) {
       heroCtx = heroCanvas.getContext('2d');
       resizeHero();
       window.addEventListener('resize', resizeHero, { passive: true });
-      for (let i = 0; i < PARTICLE_COUNT; i++) heroParticles.push(new HeroParticle());
+      const heroCount = isMobile ? 40 : PARTICLE_COUNT;
+      for (let i = 0; i < heroCount; i++) heroParticles.push(new HeroParticle());
       heroLoop();
     }
 
@@ -131,7 +134,8 @@ const Particles = (() => {
       bgCtx = bgCanvas.getContext('2d');
       resizeBg();
       window.addEventListener('resize', resizeBg, { passive: true });
-      for (let i = 0; i < 220; i++) bgStars.push(new BgStar());
+      const bgCount = isMobile ? 90 : 220;
+      for (let i = 0; i < bgCount; i++) bgStars.push(new BgStar());
       bgLoop();
     }
   }

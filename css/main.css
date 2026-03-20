@@ -678,21 +678,18 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 
 /* ── Mobile responsive overrides ── */
 
-/* Countdown: always a single horizontal row on mobile */
+/* Countdown: grid de 4 columnas iguales — nunca desborda en mobile */
 @media(max-width: 639px) {
+  #countdown { padding: 4.5rem 1rem !important; }
   #countdown .flex {
-    flex-wrap: nowrap !important;
-    gap: .5rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: .5rem;
-    scrollbar-width: none;
-    justify-content: center;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .45rem;
+    padding: 0 .25rem;
   }
-  #countdown .flex::-webkit-scrollbar { display: none; }
-  .countdown-card { min-width: 0; flex: 1 1 0; padding: 1rem .5rem; }
-  .countdown-num  { font-size: 1.8rem; }
-  .countdown-unit { font-size: .5rem; letter-spacing: .08em; }
+  .countdown-card { padding: .9rem .3rem; min-width: 0; }
+  .countdown-num  { font-size: 1.65rem; }
+  .countdown-unit { font-size: .48rem; letter-spacing: .06em; }
 }
 
 /* Tablet range: keep "15" aligned behind Emma as viewport narrows */

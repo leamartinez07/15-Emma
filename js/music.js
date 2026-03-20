@@ -1,23 +1,59 @@
 /* ═══════════════════════════════════════════════════════════
-   music.js  –  Música de fondo via YouTube embed
+   music.js  –  Música de fondo via YouTube IFrame API
    Canción: "Clocks" – Coldplay
-   FIX: iframe off-screen (no display:none) para que autoplay funcione
+   Usa YT.Player + seekTo() en onReady para saltar el silencio
+   inicial de forma confiable en mobile y desktop
    ═══════════════════════════════════════════════════════════ */
 
 const Music = (() => {
-  const VIDEO_ID = 'd020hcWA_Wg'; // Clocks – Coldplay
-  const START_SEC = 8; // segundos a saltear (silencio inicial)
-  const makeSrc  = () =>
-    `https://www.youtube.com/embed/${VIDEO_ID}` +
-    `?autoplay=1&loop=1&playlist=${VIDEO_ID}` +
-    `&controls=0&rel=0&modestbranding=1&mute=0` +
-    `&start=${START_SEC}`;
+  const VIDEO_ID  = 'd020hcWA_Wg'; // Clocks – Coldplay
+  const START_SEC = 8;              // segundos a saltear
 
+  let player  = null;
   let playing = false;
+  let pending = false; // start() llamado antes de que la API esté lista
 
-  const frame = () => document.getElementById('yt-frame');
-  const btn   = () => document.getElementById('music-btn');
-  const icon  = () => document.getElementById('music-icon');
+  const btn  = () => document.getElementById('music-btn');
+  const icon = () => document.getElementById('music-icon');
+
+  /* ── Carga el script de YouTube IFrame API una sola vez ── */
+  function loadAPI () {
+    if (window._ytApiLoading) return;
+    window._ytApiLoading = true;
+    const s  = document.createElement('script');
+    s.src    = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+
+  /* ── YouTube llama a esto automáticamente cuando la API cargó ── */
+  window.onYouTubeIframeAPIReady = function () {
+    if (pending) createPlayer();
+  };
+
+  function createPlayer () {
+    pending = false;
+    player = new YT.Player('yt-container', {
+      videoId: VIDEO_ID,
+      playerVars: {
+        autoplay:       1,
+        loop:           1,
+        playlist:       VIDEO_ID, // necesario para loop
+        controls:       0,
+        rel:            0,
+        modestbranding: 1,
+        start:          START_SEC,
+      },
+      events: {
+        onReady (e) {
+          /* seekTo fuerza el salto aunque autoplay haya empezado desde 0 */
+          e.target.seekTo(START_SEC, true);
+          e.target.setVolume(80);
+          playing = true;
+          updateUI(true);
+        },
+      },
+    });
+  }
 
   function updateUI (isPlaying) {
     const b = btn(), i = icon();
@@ -29,18 +65,25 @@ const Music = (() => {
   }
 
   function start () {
-    const f = frame();
-    if (!f) return;
-    // Set src AFTER user gesture so browser allows autoplay with sound
-    f.src = makeSrc();
-    playing = true;
-    updateUI(true);
+    if (player && player.playVideo) {
+      /* Player ya existe — salta al punto de inicio y reproduce */
+      player.seekTo(START_SEC, true);
+      player.playVideo();
+      playing = true;
+      updateUI(true);
+    } else {
+      /* Player aún no existe — marcar como pendiente y cargar API */
+      pending = true;
+      if (typeof YT !== 'undefined' && YT.Player) {
+        createPlayer();
+      } else {
+        loadAPI();
+      }
+    }
   }
 
   function stop () {
-    const f = frame();
-    if (!f) return;
-    f.src = ''; // clearing src stops playback
+    if (player && player.pauseVideo) player.pauseVideo();
     playing = false;
     updateUI(false);
   }
@@ -50,6 +93,7 @@ const Music = (() => {
   function init (withMusic) {
     const b = btn();
     if (b) b.addEventListener('click', toggle);
+    loadAPI(); // pre-carga la API en cuanto inicia la página
     if (withMusic) start();
   }
 

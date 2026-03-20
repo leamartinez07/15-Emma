@@ -140,6 +140,11 @@
 .delay-5  { animation-delay: .6s  !important; transition-delay: .6s  !important; }
 .delay-6  { animation-delay: .8s  !important; transition-delay: .8s  !important; }
 
+/* ── Mobile: ocultar estrellas fugaces (quedan raras en pantallas chicas) ── */
+@media (max-width: 640px) {
+  .shoot-star { display: none; }
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

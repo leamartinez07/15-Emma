@@ -63,9 +63,9 @@
   <!-- Barra de progreso de scroll -->
   <div id="progress-bar" class="progress-bar" style="z-index:1001;"></div>
 
-  <!-- YouTube iframe fuera de pantalla — NO display:none para que pueda reproducir -->
-  <iframe id="yt-frame" src="" allow="autoplay; encrypted-media" title="música de fondo"
-    style="position:fixed;bottom:-500px;left:-500px;width:2px;height:2px;opacity:0;pointer-events:none;border:0;z-index:-1;"></iframe>
+  <!-- Contenedor para YouTube IFrame API (reemplaza al iframe estático) -->
+  <div id="yt-container"
+    style="position:fixed;bottom:-500px;left:-500px;width:2px;height:2px;opacity:0;pointer-events:none;z-index:-1;"></div>
 
   <!-- Botón de música flotante -->
   <button id="music-btn" class="music-btn" aria-label="Toggle música" title="Música" style="z-index:1002;">
