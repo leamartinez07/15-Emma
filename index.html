@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Invitación a los 15 años de Emma – 22 de Agosto 2026, Marfex Eventos, Mendoza" />
+  <meta property="og:title" content="Emma ✦ Mis 15 Años" />
+  <meta property="og:description" content="Te invito a celebrar mis 15 años – 22 de Agosto 2026, Marfex Eventos, Tunuyán, Mendoza" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0a1628" />
+  <title>Emma ✦ Mis 15 Años</title>
+  <link rel="icon" href="favicon.svg" /><!-- reemplazado por favicon.js con Great Vibes -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { darkest:'#060e1d', dark:'#0a1628', DEFAULT:'#0d1f3c' },
+            gold:  { DEFAULT:'#c9a96e', light:'#e2c98a', pale:'#f0e0b0' },
+          },
+          fontFamily: {
+            display: ['Playfair Display','Georgia','serif'],
+            serif:   ['Cormorant Garamond','Georgia','serif'],
+            script:  ['Great Vibes','cursive'],
+            sans:    ['Montserrat','sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/main.css?v=3" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <style>
+    /* Desktop >768px: gap proporcional, capado en -3rem */
+    @media (min-width: 769px) {
+      .hero-subtitle { margin-top: max(calc(-1rem - 3vw), -3rem) !important; }
+      .hero-content-block { margin-top: 0 !important; }
+    }
+    /* Tablet 481-768px: font = 21vw → calc(1rem - 7vw) da ~32px gap consistente */
+    @media (max-width: 768px) and (min-width: 481px) {
+      .hero-subtitle { margin-top: calc(1rem - 7vw) !important; }
+    }
+    /* Mobile ≤480px: font = 30vw → calc(1rem - 10vw) da ~32px gap consistente */
+    @media (max-width: 480px) {
+      .hero-subtitle { margin-top: calc(1rem - 20vw) !important; }
+      .hero-content-block { margin-top: 14vh !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-navy-dark text-white font-sans overflow-x-hidden">
+
+  <!-- Global background starfield canvas (fixed, behind all sections) -->
+  <canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.55;"></canvas>
+
+  <!-- Barra de progreso de scroll -->
+  <div id="progress-bar" class="progress-bar" style="z-index:1001;"></div>
+
+  <!-- YouTube iframe fuera de pantalla — NO display:none para que pueda reproducir -->
+  <iframe id="yt-frame" src="" allow="autoplay; encrypted-media" title="música de fondo"
+    style="position:fixed;bottom:-500px;left:-500px;width:2px;height:2px;opacity:0;pointer-events:none;border:0;z-index:-1;"></iframe>
+
+  <!-- Botón de música flotante -->
+  <button id="music-btn" class="music-btn" aria-label="Toggle música" title="Música" style="z-index:1002;">
+    <span id="music-icon">♪</span>
+  </button>
+
+  <!-- ════════════════════════════ SPLASH ════════════════════════════ -->
+  <div id="splash" class="splash-overlay" style="z-index:9999;">
+    <div id="splash-stars" aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+    <div class="relative z-10 flex flex-col items-center gap-5 px-6 text-center" style="max-width:440px;margin:0 auto;">
+      <p class="font-sans uppercase" style="font-size:.7rem;color:rgba(201,169,110,.85);letter-spacing:.38em;font-weight:600;">
+        Bienvenidos a la invitación de
+      </p>
+      <h1 class="font-script splash-name" style="color:#e2c98a;">Emma</h1>
+      <p class="font-sans uppercase" style="font-size:.72rem;color:rgba(255,255,255,.65);letter-spacing:.28em;font-weight:500;">
+        Mis 15 Años &nbsp;·&nbsp; 22 de Agosto
+      </p>
+      <div class="divider-gold w-28"></div>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.55);font-family:'Montserrat',sans-serif;font-weight:500;"> La música de fondo es parte de la experiencia</p>
+      <div class="flex gap-3 flex-wrap justify-center pt-1">
+        <button onclick="App.enter(true)"  class="btn-gold">♪ &nbsp;Ingresar con música</button>
+        <button onclick="App.enter(false)" class="btn-outline">Ingresar sin música</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ MAIN ════════════════════════════ -->
+  <main style="position:relative;z-index:1;">
+
+    <!-- ── HERO ── -->
+    <section id="hero" class="hero-section">
+      <canvas id="hero-canvas" class="absolute inset-0 pointer-events-none" style="z-index:0;"></canvas>
+      <div class="hero-glow absolute inset-0 pointer-events-none" style="z-index:1;"></div>
+      <span class="hero-watermark" aria-hidden="true">15</span>
+
+      <div class="hero-content-block relative flex flex-col items-center text-center w-full" style="z-index:2;padding:0 1.5rem;margin-top:4vh;">
+        <!-- Date badge -->
+        <span class="badge mb-6 animate-fade-down" style="animation-delay:.1s">22 · 08 · 2026</span>
+
+        <!-- Name — wide container so script font swashes don't clip -->
+        <div style="overflow:visible;width:100%;max-width:900px;text-align:center;">
+          <h1 class="font-script hero-name animate-fade-up" style="animation-delay:.3s;">Emma</h1>
+        </div>
+
+        <p class="hero-subtitle animate-fade-up" style="animation-delay:.55s;color:rgba(255,255,255,.65);">Mis 15 Años</p>
+
+        <div class="hero-divider animate-fade-up" style="animation-delay:.75s;">
+          <span></span><i>✦</i><span></span>
+        </div>
+
+        <blockquote class="hero-quote animate-fade-up" style="font-family:'Cormorant Garamond',serif;font-style:italic;animation-delay:.95s;max-width:560px;padding:0.2rem 0.8  rem;">
+          "Una noche única, un recuerdo que queda para siempre,
+          y vos como parte de ella haciéndola inolvidable."
+        </blockquote>
+      </div>
+
+      <p class="hero-scroll-hint absolute left-1/2 -translate-x-1/2" style="bottom:2rem;" aria-hidden="true">scroll</p>
+    </section>
+
+    <!-- ── Thin decorative separator: hero → countdown ── -->
+    <div aria-hidden="true" style="background:rgba(10,22,40,.98);padding:0 2rem;">
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(201,169,110,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
+    </div>
+
+    <!-- ── COUNTDOWN ── -->
+    <section id="countdown" class="text-center" style="background:rgba(8,16,32,.97);padding:14rem 1rem 14rem;position:relative;overflow:hidden;">
+
+      <!-- Shooting stars — top zone -->
+      <i class="shoot-star" aria-hidden="true" style="--top:8%;--left:2%;--dur:5.5s;--delay:0s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:18%;--left:28%;--dur:7s;--delay:1.8s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:12%;--left:58%;--dur:6s;--delay:3.4s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:22%;--left:78%;--dur:8s;--delay:0.9s;"></i>
+
+      <!-- Shooting stars — bottom zone -->
+      <i class="shoot-star" aria-hidden="true" style="--top:72%;--left:5%;--dur:6.5s;--delay:2.2s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:82%;--left:35%;--dur:5s;--delay:4.1s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:68%;--left:62%;--dur:7.5s;--delay:1.2s;"></i>
+      <i class="shoot-star" aria-hidden="true" style="--top:78%;--left:85%;--dur:6s;--delay:3s;"></i>
+
+      <p class="badge mb-12 inline-block reveal">✦ Cuenta regresiva ✦</p>
+      <div class="flex justify-center gap-4 md:gap-6 flex-wrap px-4">
+        <div class="countdown-card reveal">
+          <span class="countdown-num" id="cd-days">521</span>
+          <span class="countdown-unit">Días</span>
+        </div>
+        <div class="countdown-card reveal delay-2">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <span class="countdown-unit">Horas</span>
+        </div>
+        <div class="countdown-card reveal delay-3">
+          <span class="countdown-num" id="cd-mins">00</span>
+          <span class="countdown-unit">Minutos</span>
+        </div>
+        <div class="countdown-card reveal delay-4">
+          <span class="countdown-num" id="cd-secs">00</span>
+          <span class="countdown-unit">Segundos</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Thin decorative separator: countdown → event ── -->
+    <div aria-hidden="true" style="background:rgba(8,16,32,.97);padding:0 2rem;">
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(201,169,110,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
+    </div>
+
+    <!-- ── EVENT INFO ── -->
+    <section id="event" style="background:rgba(10,22,40,.98);">
+      <div class="section-inner">
+        <div class="reveal text-center">
+          <span class="badge">✦ La Fiesta ✦</span>
+          <h2 class="section-title mt-4">Nos encontramos<br>
+            <em class="font-serif" style="font-style:italic;color:#e2c98a;">muy pronto</em>
+          </h2>
+          <p class="section-desc mt-4 mx-auto">Cada detalle fue pensado para que sea una noche que jamás olvidemos juntos.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
+          <!-- Fecha -->
+          <div class="info-card reveal-left delay-1">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>
+              </svg>
+            </div>
+            <p class="info-label">Fecha</p>
+            <p class="info-value">Viernes 22 de Agosto</p>
+            <p class="info-sub">A las 21:30 hs</p>
+            <button onclick="Calendar.download()" class="btn-outline-sm mt-5">Agendar en mi teléfono</button>
+          </div>
+
+          <!-- Lugar -->
+          <div class="info-card reveal delay-2">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </div>
+            <p class="info-label">Lugar</p>
+            <p class="info-value">Marfex Eventos</p>
+            <p class="info-sub">Ruta 40, Tunuyán · Mendoza, Argentina</p>
+            <a href="https://www.google.com/maps/search/Marfex+eventos+Ruta+40+Tunuyan+Mendoza"
+               target="_blank" rel="noopener" class="btn-outline-sm mt-5 inline-flex">Ver en Google Maps</a>
+          </div>
+
+          <!-- Confirmación -->
+          <div class="info-card reveal-right delay-3">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/>
+              </svg>
+            </div>
+            <p class="info-label">Confirmación</p>
+            <p class="info-value">Hasta el 10 de Julio</p>
+            <p class="info-sub">Después de esa fecha se cierra la lista</p>
+            <button onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
+              class="btn-outline-sm mt-5">Confirmar asistencia</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-wrap" style="background:rgba(10,22,40,.98);">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="rgba(6,14,29,.98)"/>
+      </svg>
+    </div>
+
+    <!-- ── GALLERY ── -->
+    <section id="gallery" style="background:rgba(6,14,29,.98);overflow:hidden;">
+      <!-- Title inside constrained width -->
+      <div class="section-inner" style="padding-bottom:2.5rem;">
+        <div class="text-center reveal">
+          <span class="badge">✦ Galería ✦</span>
+          <h2 class="section-title mt-4">Un viaje por<br>
+            <em style="font-style:italic;color:#e2c98a;">estos 15 años</em>
+          </h2>
+        </div>
+      </div>
+
+      <!-- Full-width carousel (breaks out of section-inner) -->
+      <div class="carousel-outer reveal-scale delay-2">
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-slide">
+            <img src="Fotos/WhatsApp Image 2026-03-19 at 11.25.05.jpeg" alt="Emma posando en la Alhambra de Granada" loading="lazy">
+          </div>
+          <div class="carousel-slide">
+            <img src="Fotos/WhatsApp Image 2026-03-19 at 11.25.06.jpeg" alt="Emma en Granada con vista al castillo" loading="lazy">
+          </div>
+          <div class="carousel-slide">
+            <img src="Fotos/WhatsApp Image 2026-03-19 at 11.25.066.jpeg" alt="Emma sonriendo con el paisaje de fondo" loading="lazy">
+          </div>
+          <div class="carousel-slide">
+            <img src="Fotos/WhatsApp Image 2026-03-19 at 11.25.07.jpeg" alt="Emma en viaje, recuerdo especial" loading="lazy">
+          </div>
+          <div class="carousel-slide">
+            <img src="Fotos/WhatsApp Image 2026-03-19 at 11.25.47.jpeg" alt="Emma" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls inside constrained width -->
+      <div class="section-inner" style="padding-top:2rem;padding-bottom:5rem;">
+        <div class="carousel-controls reveal delay-3">
+          <button id="carousel-prev" class="carousel-btn" aria-label="Anterior">&#8592;</button>
+          <div id="carousel-dots" class="flex gap-2 items-center">
+            <button class="dot active" data-index="0"></button>
+            <button class="dot" data-index="1"></button>
+            <button class="dot" data-index="2"></button>
+          </div>
+          <button id="carousel-next" class="carousel-btn" aria-label="Siguiente">&#8594;</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-wrap" style="background:rgba(6,14,29,.98);">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C360,0 1080,60 1440,0 L1440,60 L0,60 Z" fill="rgba(10,22,40,.98)"/>
+      </svg>
+    </div>
+
+    <!-- ── DRESS CODE ── -->
+    <section id="dresscode" style="background:rgba(10,22,40,.98);">
+      <div class="section-inner">
+        <div class="reveal text-center">
+          <span class="badge">✦ Antes de Confirmar ✦</span>
+          <h2 class="section-title mt-4">Todo lo que <em class="font-serif" style="font-style:italic;color:#e2c98a;">necesitás saber</em></h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14" style="max-width:720px;margin-left:auto;margin-right:auto;">
+
+          <!-- Dress Code -->
+          <div class="info-card reveal-left delay-1">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L8 6H4l2 14h12L20 6h-4L12 2z"/>
+                <path d="M8 6c0 2.2 1.8 4 4 4s4-1.8 4-4"/>
+              </svg>
+            </div>
+            <p class="info-label">Dress Code</p>
+            <p class="info-value">Elegante Sport</p>
+            <p class="info-sub">¡Animate a brillar esa noche!</p>
+          </div>
+
+          <!-- Alimentación -->
+          <div class="info-card reveal-right delay-2">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a7 7 0 0 1 7 7c0 4-3 7-7 10C9 16 5 13 5 9a7 7 0 0 1 7-7z"/>
+                <path d="M12 6v6M9 9h6"/>
+              </svg>
+            </div>
+            <p class="info-label">Menú</p>
+            <p class="info-value">Para todos</p>
+            <p class="info-sub">Si sos vegetariano, vegano, celíaco o tenés alguna restricción, indicalo al confirmar tu asistencia.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-wrap" style="background:rgba(10,22,40,.98);">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,0 C480,60 960,0 1440,60 L1440,0 L0,0 Z" fill="rgba(6,14,29,.98)"/>
+      </svg>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         ── TICKETS — Luxury Event Ticket Design ──
+         ════════════════════════════════════════ -->
+    <section id="tickets" class="text-center" style="background:rgba(6,14,29,.98);">
+      <div class="section-inner">
+        <div class="reveal">
+          <span class="badge">✦ Tu Lugar en la Noche ✦</span>
+          <h2 class="section-title mt-4">Reservá tu<br>
+            <em class="font-serif" style="font-style:italic;color:#e2c98a;">lugar especial</em>
+          </h2>
+        </div>
+        <p class="tickets-poem reveal mt-8">
+          "Esta noche es un sueño que quiero compartir con quienes más quiero.<br class="hidden md:block">
+          Para hacer posible cada detalle mágico, te pido con el corazón<br class="hidden md:block">
+          que colaborés con tu entrada."
+        </p>
+
+        <!-- Luxury Ticket Cards -->
+        <div class="tickets-grid mt-14">
+
+          <!-- ✦ Adultos (featured) -->
+          <div class="lux-ticket reveal delay-1">
+            <div class="ticket-shimmer-bar"></div>
+            <div class="ticket-header-area">
+              <span class="ticket-event-label">Emma &nbsp;·&nbsp; 15 Años</span>
+            </div>
+            <div class="ticket-perf-line"></div>
+            <div class="ticket-body-area">
+              <p class="ticket-category">Adultos</p>
+              <p class="ticket-amount"><sup>$</sup>65.000</p>
+              <p class="ticket-detail">Velada completa con cena y festejo</p>
+            </div>
+            <div class="ticket-footer-area">
+              <span class="ticket-date-label">22 · 08 · 2026</span>
+              <span class="ticket-venue-label">Marfex Eventos</span>
+            </div>
+          </div>
+
+          <!-- Niños 5–10 -->
+          <div class="lux-ticket reveal delay-2">
+            <div class="ticket-shimmer-bar"></div>
+            <div class="ticket-header-area">
+              <span class="ticket-event-label">Emma &nbsp;·&nbsp; 15 Años</span>
+            </div>
+            <div class="ticket-perf-line"></div>
+            <div class="ticket-body-area">
+              <p class="ticket-category">Niños de 5 a 10</p>
+              <p class="ticket-amount"><sup>$</sup>32.500</p>
+              <p class="ticket-detail">Precio especial para los pequeños</p>
+            </div>
+            <div class="ticket-footer-area">
+              <span class="ticket-date-label">22 · 08 · 2026</span>
+              <span class="ticket-venue-label">Marfex Eventos</span>
+            </div>
+          </div>
+
+          <!-- Bebés 0–5 -->
+          <div class="lux-ticket reveal delay-3">
+            <div class="ticket-shimmer-bar"></div>
+            <div class="ticket-header-area">
+              <span class="ticket-event-label">Emma &nbsp;·&nbsp; 15 Años</span>
+            </div>
+            <div class="ticket-perf-line"></div>
+            <div class="ticket-body-area">
+              <p class="ticket-category">Bebés de 0 a 5</p>
+              <p class="ticket-amount free-entry">Gratis</p>
+              <p class="ticket-detail">Su presencia es el mejor regalo</p>
+            </div>
+            <div class="ticket-footer-area">
+              <span class="ticket-date-label">22 · 08 · 2026</span>
+              <span class="ticket-venue-label">Marfex Eventos</span>
+            </div>
+          </div>
+
+        </div><!-- /tickets-grid -->
+
+        <!-- Payment Info -->
+        <div class="payment-box reveal mt-14">
+          <p class="payment-title">✦ &nbsp;Información de Pago&nbsp; ✦</p>
+          <div class="payment-rows">
+            <div class="payment-row">
+              <span>Alias</span>
+              <span style="font-family:monospace;color:#e2c98a;letter-spacing:.04em;">andrea.820.plus.mp</span>
+            </div>
+            <div class="payment-row">
+              <span>Aviso de pago</span>
+              <span>Por WhatsApp</span>
+            </div>
+            <div class="payment-row">
+              <span>Fecha límite</span>
+              <span style="color:#c9a96e;font-weight:600;">10 de Julio, 2026</span>
+            </div>
+          </div>
+          <div class="whatsapp-btn-wrap mt-6">
+            <a href="https://wa.me/542622649327?text=Hola!%20Te%20aviso%20que%20realic%C3%A9%20la%20transferencia%20para%20la%20fiesta%20de%20Emma."
+               target="_blank" rel="noopener" class="whatsapp-btn">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Avisar que realicé el pago
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-wrap" style="background:rgba(6,14,29,.98);">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="rgba(10,22,40,.98)"/>
+      </svg>
+    </div>
+
+    <!-- ── RSVP ── -->
+    <section id="rsvp" style="background:rgba(10,22,40,.98);">
+      <div class="section-inner">
+        <div class="text-center reveal">
+          <span class="badge">✦ Confirmá tu Asistencia ✦</span>
+          <h2 class="section-title mt-4">¿Venís a festejar<br>
+            <em class="font-serif" style="font-style:italic;color:#e2c98a;">conmigo?</em>
+          </h2>
+          <div class="deadline-chip mt-6 inline-flex mx-auto">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-right:.45rem;vertical-align:middle;" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/></svg>Confirmá antes del <strong style="color:#c9a96e;">&nbsp;10 de Julio</strong>
+          </div>
+        </div>
+        <div class="flex justify-center mt-12">
+          <div class="rsvp-form-card reveal-scale delay-2 w-full" style="max-width:580px;">
+            <div id="form-body">
+              <div class="form-group">
+                <label for="f-nombre" class="form-label">Tu nombre completo <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <input type="text" id="f-nombre" class="form-input" placeholder="Escribí tu nombre...">
+              </div>
+              <div class="form-group">
+                <label for="f-tel" class="form-label">WhatsApp <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <input type="tel" id="f-tel" class="form-input" placeholder="Ej: 2622 123456">
+              </div>
+              <div class="form-group">
+                <label class="form-label">¿Asistís? <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <div id="grupo-asistencia" class="flex gap-3 flex-wrap" style="padding:4px;margin:-4px;">
+                  <label class="radio-pill" id="r-si" onclick="Rsvp.select('si')">
+                    <input type="radio" name="asistencia" value="si" class="hidden"> ✓ &nbsp;Sí, voy
+                  </label>
+                  <label class="radio-pill" id="r-no" onclick="Rsvp.select('no')">
+                    <input type="radio" name="asistencia" value="no" class="hidden"> ✗ &nbsp;No puedo
+                  </label>
+                </div>
+              </div>
+              <div id="cantidades" class="hidden">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="form-group">
+                    <label for="f-adultos" class="form-label">Adultos <span style="color:rgba(201,169,110,.9);">*</span></label>
+                    <input type="number" id="f-adultos" class="form-input" placeholder="0" min="1">
+                  </div>
+                  <div class="form-group">
+                    <label for="f-ninos" class="form-label">Niños (5–10) <span style="color:rgba(201,169,110,.9);">*</span></label>
+                    <input type="number" id="f-ninos" class="form-input" placeholder="0" min="1">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="f-dieta" class="form-label">Preferencia alimentaria <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <select id="f-dieta" class="form-input">
+                  <option value="">Seleccioná una opción</option>
+                  <option value="omnivoro">Omnívoro (como de todo)</option>
+                  <option value="vegetariano">Vegetariano</option>
+                  <option value="vegano">Vegano</option>
+                  <option value="celiaco">Celíaco / Sin TACC</option>
+                  <option value="otro">Otra restricción</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="f-mensaje" class="form-label">
+                  Mensaje para Emma
+                  <span style="color:rgba(255,255,255,.5);font-size:.72rem;text-transform:none;letter-spacing:0;margin-left:.4rem;font-weight:400;">(opcional)</span>
+                </label>
+                <textarea id="f-mensaje" class="form-input" rows="3" placeholder="Escribile algo especial..."></textarea>
+              </div>
+              <button onclick="Rsvp.submit()" class="btn-gold w-full mt-2" style="font-size:.82rem;">
+                Confirmar mi asistencia &nbsp;✦
+              </button>
+            </div>
+            <div id="form-success" class="hidden text-center py-10">
+              <div style="font-size:4rem;margin-bottom:1.2rem;">🎉</div>
+              <h3 class="font-serif" style="font-size:clamp(1.8rem,4vw,2.6rem);color:#e2c98a;margin-bottom:.6rem;">¡Gracias!</h3>
+              <p style="color:rgba(205,225,250,.78);font-size:.9rem;line-height:1.85;">
+                Tu respuesta fue registrada.<br>
+                Nos vemos el <strong style="color:#fff;">22 de Agosto</strong> 🤍
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer style="background:rgba(6,14,29,.98);" class="pt-20 pb-10 text-center overflow-hidden">
+    <h2 class="font-script footer-name reveal" style="color:#e2c98a;">Emma</h2>
+    <p class="font-sans uppercase mt-2 mb-10 reveal delay-2"
+       style="font-size:.68rem;color:rgba(201,169,110,.72);letter-spacing:.35em;font-weight:600;">✦ &nbsp;Mis Quince Años · 22 de Agosto · Mendoza &nbsp;✦</p>
+    <nav class="flex gap-5 flex-wrap justify-center mb-10 reveal delay-3">
+      <button class="footer-link" onclick="App.scrollTo('event')">La Fiesta</button>
+      <button class="footer-link" onclick="App.scrollTo('gallery')">Galería</button>
+      <button class="footer-link" onclick="App.scrollTo('dresscode')">Dress Code</button>
+      <button class="footer-link" onclick="App.scrollTo('tickets')">Entrada</button>
+      <button class="footer-link" onclick="App.scrollTo('rsvp')">Confirmar</button>
+      <button class="footer-link" onclick="Calendar.download()">Agendar</button>
+    </nav>
+    <div class="divider-gold w-44 mx-auto mb-7"></div>
+    <p class="font-sans" style="font-size:.62rem;color:rgba(255,255,255,.38);letter-spacing:.25em;">Con mucho amor &nbsp;·&nbsp; Emma &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+  <script src="js/particles.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/carousel.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/rsvp.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/favicon.js"></script>
+</body>
+</html>

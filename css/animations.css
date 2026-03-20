@@ -1,0 +1,150 @@
+/* ═══════════════════════════════════════════════════════════
+   animations.css  –  Emma 15 Años · Keyframes & Transitions v2
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Entry animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-26px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(.82); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+
+.animate-fade-up   { opacity: 0; animation: fadeUp   1s ease forwards; }
+.animate-fade-down { opacity: 0; animation: fadeDown 1s ease forwards; }
+.animate-scale-in  { opacity: 0; animation: scaleIn  .9s ease forwards; }
+
+/* ── Hero scroll hint ── */
+@keyframes scrollPulse {
+  0%,100% { transform: translateX(-50%) translateY(0);    opacity: .4; }
+  50%      { transform: translateX(-50%) translateY(10px); opacity: .8; }
+}
+.hero-scroll-hint { animation: scrollPulse 2.4s ease infinite; }
+
+/* ── Twinkle (stars/sparkles throughout site) ── */
+@keyframes twinkle {
+  0%,100% { opacity: 0;           transform: scale(.4);  }
+  40%      { opacity: var(--op,1); transform: scale(1.8); }
+  70%      { opacity: var(--op,1); transform: scale(1.2); }
+}
+
+/* ── Float (gentle levitation on hero/cards) ── */
+@keyframes float {
+  0%,100% { transform: translateY(0);    }
+  50%      { transform: translateY(-8px); }
+}
+.animate-float { animation: float 4.5s ease-in-out infinite; }
+
+/* ── Glow pulse (golden halo) ── */
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 18px rgba(201,169,110,.12), 0 0 0 1px rgba(201,169,110,.15); }
+  50%      { box-shadow: 0 0 40px rgba(201,169,110,.28), 0 0 0 1px rgba(201,169,110,.35); }
+}
+.animate-glow-pulse { animation: glowPulse 3.5s ease-in-out infinite; }
+
+/* ── Rotating border for dresscode circle ── */
+@keyframes rotateBorder {
+  0%   { transform: rotate(0deg);   }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── Countdown: flip on number change ── */
+@keyframes numFlip {
+  0%  { opacity: 0; transform: translateY(-15%); }
+  100%{ opacity: 1; transform: translateY(0);    }
+}
+.countdown-num.updated { animation: numFlip .24s ease forwards; }
+
+/* ── Gold shimmer on buttons & ticket top bar ── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.btn-gold:hover {
+  background: linear-gradient(90deg,
+    #c9a96e 0%, #f0e0b0 35%, #e2c98a 55%, #c9a96e 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 1.3s linear infinite;
+}
+
+/* ── Success bounce for RSVP ── */
+@keyframes successBounce {
+  0%  { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.28); opacity: 1; }
+  80% { transform: scale(.9);  }
+  100%{ transform: scale(1);   }
+}
+#form-success > div:first-child { animation: successBounce .65s ease forwards; }
+
+/* ── Carousel image fade ── */
+@keyframes imgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.carousel-img-wrap img { animation: imgFadeIn .45s ease; }
+
+/* ── Gold ring spin (countdown cards) ── */
+@keyframes ringPulse {
+  0%,100% { opacity: .15; }
+  50%      { opacity: .4;  }
+}
+
+/* ── Particle drift ── */
+@keyframes particleDrift {
+  0%   { transform: translateY(0)   rotate(0deg);   opacity: 0;   }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-80px) rotate(180deg); opacity: 0; }
+}
+
+/* ── Shooting stars (countdown section) ── */
+@keyframes shootStar {
+  0%   { transform: rotate(-38deg) translateX(-120px); opacity: 0; }
+  8%   { opacity: .85; }
+  35%  { opacity: 0; }
+  100% { transform: rotate(-38deg) translateX(380px);  opacity: 0; }
+}
+.shoot-star {
+  position: absolute;
+  top:  var(--top,  10%);
+  left: var(--left, 10%);
+  width: 70px; height: 1.5px;
+  border-radius: 1px;
+  /* bright head on right, fading gold tail on left */
+  background: linear-gradient(to right,
+    rgba(201,169,110,0)   0%,
+    rgba(201,169,110,.35) 40%,
+    rgba(255,255,255,.85) 80%,
+    rgba(255,255,255,1)   100%
+  );
+  animation: shootStar var(--dur, 5s) var(--delay, 0s) ease-out infinite;
+  pointer-events: none;
+}
+
+/* ── Stagger helpers (can be applied inline) ── */
+.delay-1  { animation-delay: .1s  !important; transition-delay: .1s  !important; }
+.delay-2  { animation-delay: .2s  !important; transition-delay: .2s  !important; }
+.delay-3  { animation-delay: .3s  !important; transition-delay: .3s  !important; }
+.delay-4  { animation-delay: .45s !important; transition-delay: .45s !important; }
+.delay-5  { animation-delay: .6s  !important; transition-delay: .6s  !important; }
+.delay-6  { animation-delay: .8s  !important; transition-delay: .8s  !important; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
