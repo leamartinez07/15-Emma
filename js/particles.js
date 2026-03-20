@@ -8,8 +8,8 @@ const Particles = (() => {
 
   /* ── Hero particles ── */
   const PARTICLE_COUNT = 95;
-  const GOLD_COLOR     = '#c9a96e';
-  const GLOW_COLOR     = '#e2c98a';
+  const GOLD_COLOR     = '#b8c8e0';
+  const GLOW_COLOR     = '#cddaec';
 
   let heroCanvas, heroCtx, heroParticles = [], heroRaf;
 

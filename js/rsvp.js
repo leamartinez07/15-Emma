@@ -14,7 +14,7 @@ const Rsvp = (() => {
     Object.assign(el.style, {
       position:'fixed', bottom:'2rem', left:'50%',
       transform:'translateX(-50%)',
-      background: isError ? 'rgba(255,100,100,.95)' : 'rgba(201,169,110,.95)',
+      background: isError ? 'rgba(255,100,100,.95)' : 'rgba(184,200,224,.95)',
       color:'#fff',
       padding:'.75rem 1.8rem', borderRadius:'50px',
       fontFamily:'Montserrat,sans-serif', fontSize:'.82rem', fontWeight:'600',
@@ -60,14 +60,6 @@ const Rsvp = (() => {
     if (g) { g.style.outline = ''; g.style.borderRadius = ''; }
   }
 
-  const DIETA_LABELS = {
-    omnivoro:     'Omnívoro',
-    vegetariano:  'Vegetariano',
-    vegano:       'Vegano',
-    celiaco:      'Celíaco / Sin TACC',
-    otro:         'Otra restricción',
-  };
-
   function buildMsg (d) {
     let m = `Hola! Confirmacion de asistencia para la fiesta de Emma\n\n`;
     m += `Nombre: *${d.nombre}*\n`;
@@ -77,7 +69,6 @@ const Rsvp = (() => {
       m += `\n*Personas:*\n`;
       m += `  - Adultos: ${d.adultos || 0}\n`;
       m += `  - Ninos (5-10): ${d.ninos || 0}\n`;
-      if (d.dieta) m += `\nAlimentacion: ${DIETA_LABELS[d.dieta] || d.dieta}\n`;
     }
     if (d.mensaje) m += `\nMensaje: _${d.mensaje}_`;
     return m;
@@ -88,7 +79,6 @@ const Rsvp = (() => {
     const tel     = get('f-tel')?.value.trim()    ?? '';
     const adultos = parseInt(get('f-adultos')?.value ?? '0', 10);
     const ninos   = parseInt(get('f-ninos')?.value   ?? '0', 10);
-    const dieta   = get('f-dieta')?.value            ?? '';
     const mensaje = get('f-mensaje')?.value.trim()   ?? '';
 
     /* ── Validaciones ── */
@@ -126,16 +116,9 @@ const Rsvp = (() => {
       return;
     }
 
-    if (!dieta) {
-      markError('f-dieta');
-      toast('Por favor selecciona tu preferencia alimentaria');
-      get('f-dieta')?.focus();
-      return;
-    }
-
     /* ── Envío ── */
     const text = encodeURIComponent(
-      buildMsg({ nombre, tel, asiste: choice === 'si', adultos, ninos, dieta, mensaje })
+      buildMsg({ nombre, tel, asiste: choice === 'si', adultos, ninos, mensaje })
     );
     window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
 

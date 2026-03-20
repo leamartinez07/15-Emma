@@ -22,7 +22,7 @@
         extend: {
           colors: {
             navy: { darkest:'#060e1d', dark:'#0a1628', DEFAULT:'#0d1f3c' },
-            gold:  { DEFAULT:'#c9a96e', light:'#e2c98a', pale:'#f0e0b0' },
+            gold:  { DEFAULT:'#b8c8e0', light:'#cddaec', pale:'#e4ecf7' },
           },
           fontFamily: {
             display: ['Playfair Display','Georgia','serif'],
@@ -76,10 +76,10 @@
   <div id="splash" class="splash-overlay" style="z-index:9999;">
     <div id="splash-stars" aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
     <div class="relative z-10 flex flex-col items-center gap-5 px-6 text-center" style="max-width:440px;margin:0 auto;">
-      <p class="font-sans uppercase splash-label-top" style="font-size:.7rem;color:rgba(201,169,110,.85);letter-spacing:.38em;font-weight:600;">
+      <p class="font-sans uppercase splash-label-top" style="font-size:.7rem;color:rgba(184,200,224,.85);letter-spacing:.38em;font-weight:600;">
         Bienvenidos a la invitación de
       </p>
-      <h1 class="font-script splash-name" style="color:#e2c98a;">Emma</h1>
+      <h1 class="font-script splash-name" style="color:#cddaec;">Emma</h1>
       <p class="font-sans uppercase splash-label-date" style="font-size:.72rem;color:rgba(255,255,255,.65);letter-spacing:.28em;font-weight:500;">
         Mis 15 Años &nbsp;·&nbsp; 22 de Agosto
       </p>
@@ -127,7 +127,7 @@
 
     <!-- ── Thin decorative separator: hero → countdown ── -->
     <div aria-hidden="true" style="background:rgba(10,22,40,.98);padding:0 2rem;">
-      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(201,169,110,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(184,200,224,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
     </div>
 
     <!-- ── COUNTDOWN ── -->
@@ -168,7 +168,7 @@
 
     <!-- ── Thin decorative separator: countdown → event ── -->
     <div aria-hidden="true" style="background:rgba(8,16,32,.97);padding:0 2rem;">
-      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(201,169,110,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
+      <div style="height:1px;background:linear-gradient(to right,transparent,rgba(160,205,240,.35) 30%,rgba(184,200,224,.5) 50%,rgba(160,205,240,.35) 70%,transparent);max-width:960px;margin:0 auto;"></div>
     </div>
 
     <!-- ── EVENT INFO ── -->
@@ -177,21 +177,21 @@
         <div class="reveal text-center">
           <span class="badge">✦ La Fiesta ✦</span>
           <h2 class="section-title mt-4">Nos encontramos<br>
-            <em class="font-serif" style="font-style:italic;color:#e2c98a;">muy pronto</em>
+            <em class="font-serif" style="font-style:italic;color:#cddaec;">muy pronto</em>
           </h2>
           <p class="section-desc mt-4 mx-auto">Cada detalle fue pensado para que sea una noche que jamás olvidemos juntos.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14" style="max-width:720px;margin-left:auto;margin-right:auto;">
           <!-- Fecha -->
           <div class="info-card reveal-left delay-1">
             <div class="info-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#b8c8e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>
               </svg>
             </div>
             <p class="info-label">Fecha</p>
-            <p class="info-value">Viernes 22 de Agosto</p>
+            <p class="info-value">Sábado 22 de Agosto</p>
             <p class="info-sub">A las 21:30 hs</p>
             <button onclick="Calendar.download()" class="btn-outline-sm mt-5">Agendar en mi teléfono</button>
           </div>
@@ -199,7 +199,7 @@
           <!-- Lugar -->
           <div class="info-card reveal delay-2">
             <div class="info-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#b8c8e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
               </svg>
             </div>
@@ -210,19 +210,6 @@
                target="_blank" rel="noopener" class="btn-outline-sm mt-5 inline-flex">Ver en Google Maps</a>
           </div>
 
-          <!-- Confirmación -->
-          <div class="info-card reveal-right delay-3">
-            <div class="info-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/>
-              </svg>
-            </div>
-            <p class="info-label">Confirmación</p>
-            <p class="info-value">Hasta el 10 de Julio</p>
-            <p class="info-sub">Después de esa fecha se cierra la lista</p>
-            <button onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
-              class="btn-outline-sm mt-5">Confirmar asistencia</button>
-          </div>
         </div>
       </div>
     </section>
@@ -240,7 +227,7 @@
         <div class="text-center reveal">
           <span class="badge">✦ Galería ✦</span>
           <h2 class="section-title mt-4">Un viaje por<br>
-            <em style="font-style:italic;color:#e2c98a;">estos 15 años</em>
+            <em style="font-style:italic;color:#cddaec;">estos 15 años</em>
           </h2>
         </div>
       </div>
@@ -290,15 +277,14 @@
     <section id="dresscode" style="background:rgba(10,22,40,.98);">
       <div class="section-inner">
         <div class="reveal text-center">
-          <span class="badge">✦ Antes de Confirmar ✦</span>
-          <h2 class="section-title mt-4">Todo lo que <em class="font-serif" style="font-style:italic;color:#e2c98a;">necesitás saber</em></h2>
+          <span class="badge">✦ Dress Code ✦</span>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14" style="max-width:720px;margin-left:auto;margin-right:auto;">
+        <div class="flex justify-center mt-14">
 
           <!-- Dress Code -->
-          <div class="info-card reveal-left delay-1">
+          <div class="info-card reveal delay-1" style="max-width:380px;width:100%;">
             <div class="info-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#b8c8e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2L8 6H4l2 14h12L20 6h-4L12 2z"/>
                 <path d="M8 6c0 2.2 1.8 4 4 4s4-1.8 4-4"/>
               </svg>
@@ -306,19 +292,6 @@
             <p class="info-label">Dress Code</p>
             <p class="info-value">Elegante Sport</p>
             <p class="info-sub">¡Animate a brillar esa noche!</p>
-          </div>
-
-          <!-- Alimentación -->
-          <div class="info-card reveal-right delay-2">
-            <div class="info-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2a7 7 0 0 1 7 7c0 4-3 7-7 10C9 16 5 13 5 9a7 7 0 0 1 7-7z"/>
-                <path d="M12 6v6M9 9h6"/>
-              </svg>
-            </div>
-            <p class="info-label">Menú</p>
-            <p class="info-value">Para todos</p>
-            <p class="info-sub">Si sos vegetariano, vegano, celíaco o tenés alguna restricción, indicalo al confirmar tu asistencia.</p>
           </div>
 
         </div>
@@ -339,7 +312,7 @@
         <div class="reveal">
           <span class="badge">✦ Tu Lugar en la Noche ✦</span>
           <h2 class="section-title mt-4">Reservá tu<br>
-            <em class="font-serif" style="font-style:italic;color:#e2c98a;">lugar especial</em>
+            <em class="font-serif" style="font-style:italic;color:#cddaec;">lugar especial</em>
           </h2>
         </div>
         <p class="tickets-poem reveal mt-8">
@@ -413,7 +386,7 @@
           <div class="payment-rows">
             <div class="payment-row">
               <span>Alias</span>
-              <span style="font-family:monospace;color:#e2c98a;letter-spacing:.04em;">andrea.820.plus.mp</span>
+              <span style="font-family:monospace;color:#cddaec;letter-spacing:.04em;">andrea.820.plus.mp</span>
             </div>
             <div class="payment-row">
               <span>Aviso de pago</span>
@@ -421,7 +394,7 @@
             </div>
             <div class="payment-row">
               <span>Fecha límite</span>
-              <span style="color:#c9a96e;font-weight:600;">10 de Julio, 2026</span>
+              <span style="color:#b8c8e0;font-weight:600;">10 de Julio, 2026</span>
             </div>
           </div>
           <div class="whatsapp-btn-wrap mt-6">
@@ -449,25 +422,25 @@
         <div class="text-center reveal">
           <span class="badge">✦ Confirmá tu Asistencia ✦</span>
           <h2 class="section-title mt-4">¿Venís a festejar<br>
-            <em class="font-serif" style="font-style:italic;color:#e2c98a;">conmigo?</em>
+            <em class="font-serif" style="font-style:italic;color:#cddaec;">conmigo?</em>
           </h2>
           <div class="deadline-chip mt-6 inline-flex mx-auto">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-right:.45rem;vertical-align:middle;" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/></svg>Confirmá antes del <strong style="color:#c9a96e;">&nbsp;10 de Julio</strong>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b8c8e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-right:.45rem;vertical-align:middle;" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/></svg>Confirmá antes del <strong style="color:#b8c8e0;">&nbsp;10 de Julio</strong>
           </div>
         </div>
         <div class="flex justify-center mt-12">
           <div class="rsvp-form-card reveal-scale delay-2 w-full" style="max-width:580px;">
             <div id="form-body">
               <div class="form-group">
-                <label for="f-nombre" class="form-label">Tu nombre completo <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <label for="f-nombre" class="form-label">Tu nombre completo <span style="color:rgba(184,200,224,.9);">*</span></label>
                 <input type="text" id="f-nombre" class="form-input" placeholder="Escribí tu nombre...">
               </div>
               <div class="form-group">
-                <label for="f-tel" class="form-label">WhatsApp <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <label for="f-tel" class="form-label">WhatsApp <span style="color:rgba(184,200,224,.9);">*</span></label>
                 <input type="tel" id="f-tel" class="form-input" placeholder="Ej: 2622 123456">
               </div>
               <div class="form-group">
-                <label class="form-label">¿Asistís? <span style="color:rgba(201,169,110,.9);">*</span></label>
+                <label class="form-label">¿Asistís? <span style="color:rgba(184,200,224,.9);">*</span></label>
                 <div id="grupo-asistencia" class="flex gap-3 flex-wrap" style="padding:4px;margin:-4px;">
                   <label class="radio-pill" id="r-si" onclick="Rsvp.select('si')">
                     <input type="radio" name="asistencia" value="si" class="hidden"> ✓ &nbsp;Sí, voy
@@ -480,25 +453,14 @@
               <div id="cantidades" class="hidden">
                 <div class="grid grid-cols-2 gap-4">
                   <div class="form-group">
-                    <label for="f-adultos" class="form-label">Adultos <span style="color:rgba(201,169,110,.9);">*</span></label>
+                    <label for="f-adultos" class="form-label">Adultos <span style="color:rgba(184,200,224,.9);">*</span></label>
                     <input type="number" id="f-adultos" class="form-input" placeholder="0" min="1">
                   </div>
                   <div class="form-group">
-                    <label for="f-ninos" class="form-label">Niños (5–10) <span style="color:rgba(201,169,110,.9);">*</span></label>
+                    <label for="f-ninos" class="form-label">Niños (5–10) <span style="color:rgba(184,200,224,.9);">*</span></label>
                     <input type="number" id="f-ninos" class="form-input" placeholder="0" min="1">
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="f-dieta" class="form-label">Preferencia alimentaria <span style="color:rgba(201,169,110,.9);">*</span></label>
-                <select id="f-dieta" class="form-input">
-                  <option value="">Seleccioná una opción</option>
-                  <option value="omnivoro">Omnívoro (como de todo)</option>
-                  <option value="vegetariano">Vegetariano</option>
-                  <option value="vegano">Vegano</option>
-                  <option value="celiaco">Celíaco / Sin TACC</option>
-                  <option value="otro">Otra restricción</option>
-                </select>
               </div>
               <div class="form-group">
                 <label for="f-mensaje" class="form-label">
@@ -513,7 +475,7 @@
             </div>
             <div id="form-success" class="hidden text-center py-10">
               <div style="font-size:4rem;margin-bottom:1.2rem;">🎉</div>
-              <h3 class="font-serif" style="font-size:clamp(1.8rem,4vw,2.6rem);color:#e2c98a;margin-bottom:.6rem;">¡Gracias!</h3>
+              <h3 class="font-serif" style="font-size:clamp(1.8rem,4vw,2.6rem);color:#cddaec;margin-bottom:.6rem;">¡Gracias!</h3>
               <p style="color:rgba(205,225,250,.78);font-size:.9rem;line-height:1.85;">
                 Tu respuesta fue registrada.<br>
                 Nos vemos el <strong style="color:#fff;">22 de Agosto</strong> 🤍
@@ -528,9 +490,9 @@
 
   <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
   <footer style="background:rgba(6,14,29,.98);" class="pt-20 pb-10 text-center overflow-hidden">
-    <h2 class="font-script footer-name reveal" style="color:#e2c98a;">Emma</h2>
+    <h2 class="font-script footer-name reveal" style="color:#cddaec;">Emma</h2>
     <p class="font-sans uppercase mt-2 mb-10 reveal delay-2"
-       style="font-size:.68rem;color:rgba(201,169,110,.72);letter-spacing:.35em;font-weight:600;">✦ &nbsp;Mis Quince Años · 22 de Agosto · Mendoza &nbsp;✦</p>
+       style="font-size:.68rem;color:rgba(184,200,224,.72);letter-spacing:.35em;font-weight:600;">✦ &nbsp;Mis Quince Años · 22 de Agosto · Mendoza &nbsp;✦</p>
     <nav class="flex gap-5 flex-wrap justify-center mb-10 reveal delay-3">
       <button class="footer-link" onclick="App.scrollTo('event')">La Fiesta</button>
       <button class="footer-link" onclick="App.scrollTo('gallery')">Galería</button>

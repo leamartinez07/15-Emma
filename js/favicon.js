@@ -34,15 +34,15 @@
   ctx.fill();
 
   /* ── Borde dorado sutil ── */
-  ctx.strokeStyle = 'rgba(201,169,110,0.45)';
+  ctx.strokeStyle = 'rgba(184,200,224,0.45)';
   ctx.lineWidth   = 1.4;
   ctx.stroke();
 
   /* ── E con degradado dorado ── */
   const gold = ctx.createLinearGradient(S * 0.2, S * 0.05, S * 0.8, S * 0.95);
-  gold.addColorStop(0,    '#f0e0b0');
-  gold.addColorStop(0.42, '#e2c98a');
-  gold.addColorStop(1,    '#b8893a');
+  gold.addColorStop(0,    '#e4ecf7');
+  gold.addColorStop(0.42, '#cddaec');
+  gold.addColorStop(1,    '#8a9ab8');
 
   ctx.fillStyle    = gold;
   ctx.font         = `${S * 0.62}px "Great Vibes"`;
