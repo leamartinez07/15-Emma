@@ -654,6 +654,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   color: var(--navy-dark); font-family: 'Montserrat', sans-serif;
   font-size: .78rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  white-space: nowrap;
   border: none; border-radius: var(--radius-pill); cursor: pointer;
   transition: transform .3s, box-shadow .3s;
   box-shadow: 0 5px 20px rgba(184,200,224,.22);
