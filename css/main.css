@@ -740,7 +740,8 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   #music-icon { font-size: 1.55rem; }
 
   /* ── Badges y etiquetas dentro de la página ── */
-  .badge      { font-size: .72rem !important; padding: .55rem 1.4rem !important; }
+  .badge      { font-size: .62rem !important; padding: .42rem .9rem !important;
+                letter-spacing: .1em !important; white-space: nowrap; }
   .form-label { font-size: .82rem !important; }
   /* Grilla de 2 col (Adultos / Niños): letra más chica y menos espaciado
      para que el asterisco no caiga a la línea siguiente en pantallas angostas */
