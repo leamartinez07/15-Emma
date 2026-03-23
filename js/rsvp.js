@@ -63,10 +63,9 @@ const Rsvp = (() => {
     if (!SHEETS_URL) return;
     fetch(SHEETS_URL, {
       method: 'POST',
-      mode:   'no-cors',   // Apps Script no necesita CORS preflight
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    }).catch(() => { /* silencioso — no interrumpe nada */ });
+    }).catch(() => {});
   }
 
   function submit () {
@@ -146,7 +145,7 @@ const Pago = (() => {
 
     /* Registrar en Sheets */
     fetch(SHEETS_URL, {
-      method: 'POST', mode: 'no-cors',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tipo: 'pago', nombre }),
     }).catch(() => {});
