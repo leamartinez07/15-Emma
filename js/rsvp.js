@@ -61,11 +61,16 @@ const Rsvp = (() => {
 
   function sendToSheets (data) {
     if (!SHEETS_URL) return;
-    fetch(SHEETS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).catch(() => {});
+    const params = new URLSearchParams({
+      tipo:    data.tipo    || 'rsvp',
+      nombre:  data.nombre  || '',
+      tel:     data.tel     || '',
+      asiste:  data.asiste  ? 'si' : 'no',
+      adultos: data.adultos || 0,
+      ninos:   data.ninos   || 0,
+      mensaje: data.mensaje || '',
+    });
+    fetch(`${SHEETS_URL}?${params}`, { mode: 'no-cors' }).catch(() => {});
   }
 
   function submit () {
@@ -144,11 +149,8 @@ const Pago = (() => {
     }
 
     /* Registrar en Sheets */
-    fetch(SHEETS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tipo: 'pago', nombre }),
-    }).catch(() => {});
+    const params = new URLSearchParams({ tipo: 'pago', nombre });
+    fetch(`${SHEETS_URL}?${params}`, { mode: 'no-cors' }).catch(() => {});
 
     /* Avisar por WhatsApp */
     const texto = encodeURIComponent(`Hola! Te aviso que realicé la transferencia para la fiesta de Emma.\nNombre: ${nombre}`);
