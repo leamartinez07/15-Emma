@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 const Rsvp = (() => {
-  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJBSiye5zhpwb57-AUKz29EdUPReutuCtHLMTJcgWzRhC5Stzc3Wp749UiNkClsHM9/exec';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzdDFyeMosSFWpOOn76r5e-T2226ikjo65o6AszRAoigVKIk14dsXL1rpx2tgzOxUcN/exec';
 
   let choice = null;
 
@@ -130,7 +130,7 @@ const Rsvp = (() => {
    Muestra un campo de nombre y registra en Sheets + WhatsApp
    ═══════════════════════════════════════════════════════════ */
 const Pago = (() => {
-  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJBSiye5zhpwb57-AUKz29EdUPReutuCtHLMTJcgWzRhC5Stzc3Wp749UiNkClsHM9/exec';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzdDFyeMosSFWpOOn76r5e-T2226ikjo65o6AszRAoigVKIk14dsXL1rpx2tgzOxUcN/exec';
   const WA_NUMBER  = '542622431552';
   const get = id => document.getElementById(id);
 
