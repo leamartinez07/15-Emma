@@ -1,10 +1,12 @@
 /* ═══════════════════════════════════════════════════════════
-   rsvp.js  –  Formulario de asistencia + envío por WhatsApp
+   rsvp.js  –  Formulario de asistencia → Google Sheets
    ═══════════════════════════════════════════════════════════ */
 
 const Rsvp = (() => {
-  const WA_NUMBER = '542622431552';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJBSiye5zhpwb57-AUKz29EdUPReutuCtHLMTJcgWzRhC5Stzc3Wp749UiNkClsHM9/exec';
+
   let choice = null;
+  let pago   = null;
 
   const get = id => document.getElementById(id);
 
@@ -25,7 +27,6 @@ const Rsvp = (() => {
     setTimeout(() => el.remove(), 3200);
   }
 
-  /* Marca un campo con borde rojo y lo limpia al escribir */
   function markError (id) {
     const el = get(id);
     if (!el) return;
@@ -55,23 +56,26 @@ const Rsvp = (() => {
     get('r-no')?.classList.toggle('active', value === 'no');
     const c = get('cantidades');
     if (c) c.classList.toggle('hidden', value !== 'si');
-    /* Limpia el error visual del grupo si lo había */
+    /* Resetear selección de pago si cambia asistencia */
+    if (value !== 'si') { pago = null; get('p-si')?.classList.remove('active'); get('p-no')?.classList.remove('active'); }
     const g = get('grupo-asistencia');
     if (g) { g.style.outline = ''; g.style.borderRadius = ''; }
   }
 
-  function buildMsg (d) {
-    let m = `Hola! Confirmacion de asistencia para la fiesta de Emma\n\n`;
-    m += `Nombre: *${d.nombre}*\n`;
-    if (d.tel) m += `WhatsApp: ${d.tel}\n`;
-    m += `Asistencia: ${d.asiste ? 'Si, voy a estar!' : 'No voy a poder ir'}\n`;
-    if (d.asiste) {
-      m += `\n*Personas:*\n`;
-      m += `  - Adultos: ${d.adultos || 0}\n`;
-      m += `  - Ninos (5-10): ${d.ninos || 0}\n`;
-    }
-    if (d.mensaje) m += `\nMensaje: _${d.mensaje}_`;
-    return m;
+  function selectPago (value) {
+    pago = value;
+    get('p-si')?.classList.toggle('active', value === 'si');
+    get('p-no')?.classList.toggle('active', value === 'no');
+  }
+
+  function sendToSheets (data) {
+    if (!SHEETS_URL) return;
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode:   'no-cors',   // Apps Script no necesita CORS preflight
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).catch(() => { /* silencioso — no interrumpe nada */ });
   }
 
   function submit () {
@@ -88,27 +92,23 @@ const Rsvp = (() => {
       get('f-nombre')?.focus();
       return;
     }
-
     if (!tel) {
       markError('f-tel');
       toast('Por favor ingresa tu numero de WhatsApp');
       get('f-tel')?.focus();
       return;
     }
-
     if (!choice) {
       markGroupError('grupo-asistencia');
       toast('Indica si vas a asistir o no');
       return;
     }
-
     if (choice === 'si' && adultos < 1) {
       markError('f-adultos');
       toast('Indica cuantos adultos asisten (minimo 1)');
       get('f-adultos')?.focus();
       return;
     }
-
     if (choice === 'si' && ninos < 1) {
       markError('f-ninos');
       toast('Indica cuantos niños asisten (minimo 1)');
@@ -116,16 +116,16 @@ const Rsvp = (() => {
       return;
     }
 
-    /* ── Envío ── */
-    const text = encodeURIComponent(
-      buildMsg({ nombre, tel, asiste: choice === 'si', adultos, ninos, mensaje })
-    );
-    window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
+    const formData = { nombre, tel, asiste: choice === 'si', adultos, ninos, mensaje, pago };
 
+    /* Enviar a Google Sheets y mostrar pantalla de éxito */
+    sendToSheets(formData);
+
+    /* Pantalla de éxito */
     const body = get('form-body'), ok = get('form-success');
     if (body) body.style.display = 'none';
     if (ok)   ok.style.display   = 'block';
   }
 
-  return { select, submit };
+  return { select, selectPago, submit };
 })();
