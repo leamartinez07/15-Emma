@@ -6,7 +6,6 @@ const Rsvp = (() => {
   const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJBSiye5zhpwb57-AUKz29EdUPReutuCtHLMTJcgWzRhC5Stzc3Wp749UiNkClsHM9/exec';
 
   let choice = null;
-  let pago   = null;
 
   const get = id => document.getElementById(id);
 
@@ -56,16 +55,8 @@ const Rsvp = (() => {
     get('r-no')?.classList.toggle('active', value === 'no');
     const c = get('cantidades');
     if (c) c.classList.toggle('hidden', value !== 'si');
-    /* Resetear selección de pago si cambia asistencia */
-    if (value !== 'si') { pago = null; get('p-si')?.classList.remove('active'); get('p-no')?.classList.remove('active'); }
     const g = get('grupo-asistencia');
     if (g) { g.style.outline = ''; g.style.borderRadius = ''; }
-  }
-
-  function selectPago (value) {
-    pago = value;
-    get('p-si')?.classList.toggle('active', value === 'si');
-    get('p-no')?.classList.toggle('active', value === 'no');
   }
 
   function sendToSheets (data) {
@@ -116,7 +107,7 @@ const Rsvp = (() => {
       return;
     }
 
-    const formData = { nombre, tel, asiste: choice === 'si', adultos, ninos, mensaje, pago };
+    const formData = { nombre, tel, asiste: choice === 'si', adultos, ninos, mensaje };
 
     /* Enviar a Google Sheets y mostrar pantalla de éxito */
     sendToSheets(formData);
@@ -127,5 +118,47 @@ const Rsvp = (() => {
     if (ok)   ok.style.display   = 'block';
   }
 
-  return { select, selectPago, submit };
+  return { select, submit };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   Pago  –  Botón "Avisar que realicé el pago"
+   Muestra un campo de nombre y registra en Sheets + WhatsApp
+   ═══════════════════════════════════════════════════════════ */
+const Pago = (() => {
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJBSiye5zhpwb57-AUKz29EdUPReutuCtHLMTJcgWzRhC5Stzc3Wp749UiNkClsHM9/exec';
+  const WA_NUMBER  = '542622431552';
+  const get = id => document.getElementById(id);
+
+  function mostrar () {
+    get('pago-btn')?.classList.add('hidden');
+    get('pago-form')?.classList.remove('hidden');
+    get('pago-nombre')?.focus();
+  }
+
+  function confirmar () {
+    const nombre = get('pago-nombre')?.value.trim() ?? '';
+    if (!nombre) {
+      const inp = get('pago-nombre');
+      if (inp) { inp.style.borderColor = 'rgba(255,100,100,.7)'; setTimeout(() => inp.style.borderColor = '', 2000); }
+      return;
+    }
+
+    /* Registrar en Sheets */
+    fetch(SHEETS_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo: 'pago', nombre }),
+    }).catch(() => {});
+
+    /* Avisar por WhatsApp */
+    const texto = encodeURIComponent(`Hola! Te aviso que realicé la transferencia para la fiesta de Emma.\nNombre: ${nombre}`);
+    window.open(`https://wa.me/${WA_NUMBER}?text=${texto}`, '_blank');
+
+    /* Confirmación visual */
+    get('pago-form')?.classList.add('hidden');
+    get('pago-ok')?.classList.remove('hidden');
+  }
+
+  return { mostrar, confirmar };
 })();
