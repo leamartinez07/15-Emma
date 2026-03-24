@@ -104,9 +104,9 @@ const Rsvp = (() => {
       get('f-adultos')?.focus();
       return;
     }
-    if (choice === 'si' && ninos < 1) {
+    if (choice === 'si' && ninos < 0) {
       markError('f-ninos');
-      toast('Indica cuantos niños asisten (minimo 1)');
+      toast('El numero de niños no puede ser negativo');
       get('f-ninos')?.focus();
       return;
     }
