@@ -9,7 +9,7 @@ const RSVP_STORAGE_KEY = 'emma-rsvp-confirmada';
 const Ui = (() => {
   const get = id => document.getElementById(id);
 
-  function toast (msg, isError = true) {
+  function toast(msg, isError = true) {
     const el = document.createElement('div');
     el.textContent = msg;
     Object.assign(el.style, {
@@ -32,7 +32,7 @@ const Ui = (() => {
     setTimeout(() => el.remove(), 3200);
   }
 
-  function markError (id) {
+  function markError(id) {
     const el = get(id);
     if (!el) return;
 
@@ -50,7 +50,7 @@ const Ui = (() => {
     el.addEventListener('change', clear);
   }
 
-  function markGroupError (id) {
+  function markGroupError(id) {
     const el = get(id);
     if (!el) return;
 
@@ -68,7 +68,7 @@ const Ui = (() => {
 const Confirmacion = (() => {
   let confirmacionGuardada = load();
 
-  function normalize (raw) {
+  function normalize(raw) {
     if (!raw || typeof raw !== 'object') return null;
 
     const nombre = String(raw.nombre ?? '').trim();
@@ -90,7 +90,7 @@ const Confirmacion = (() => {
     };
   }
 
-  function load () {
+  function load() {
     try {
       return normalize(JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY) ?? 'null'));
     } catch {
@@ -98,7 +98,7 @@ const Confirmacion = (() => {
     }
   }
 
-  function save (data) {
+  function save(data) {
     confirmacionGuardada = normalize(data);
 
     try {
@@ -112,14 +112,14 @@ const Confirmacion = (() => {
     return get();
   }
 
-  function get () {
+  function get() {
     return confirmacionGuardada ? { ...confirmacionGuardada } : null;
   }
 
   return { save, get };
 })();
 
-function sendToSheets (data) {
+function sendToSheets(data) {
   if (!SHEETS_URL) return;
 
   const params = new URLSearchParams({
@@ -140,7 +140,7 @@ const Rsvp = (() => {
   let choice = null;
   const { get, toast, markError, markGroupError } = Ui;
 
-  function select (value) {
+  function select(value) {
     choice = value;
     get('r-si')?.classList.toggle('active', value === 'si');
     get('r-no')?.classList.toggle('active', value === 'no');
@@ -155,7 +155,7 @@ const Rsvp = (() => {
     }
   }
 
-  function submit () {
+  function submit() {
     const nombre = get('f-nombre')?.value.trim() ?? '';
     const tel = get('f-tel')?.value.trim() ?? '';
     const adultosIngresados = Number.parseInt(get('f-adultos')?.value ?? '', 10);
@@ -221,30 +221,7 @@ const Rsvp = (() => {
 const Pago = (() => {
   const { get, toast } = Ui;
 
-  function cleanupLegacyMarkup () {
-    const legacyForm = get('pago-form');
-    const btn = get('pago-btn');
-
-    if (legacyForm) legacyForm.classList.add('hidden');
-    if (!btn || !legacyForm) return;
-
-    let node = btn.previousSibling;
-    while (node && node !== legacyForm) {
-      const prev = node.previousSibling;
-
-      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-        node.remove();
-      }
-
-      if (node.nodeType === Node.ELEMENT_NODE && ['pago-help', 'pago-resumen'].includes(node.id)) {
-        node.remove();
-      }
-
-      node = prev;
-    }
-  }
-
-  function canConfirmPayment (data = Confirmacion.get()) {
+  function canConfirmPayment(data = Confirmacion.get()) {
     return Boolean(
       data &&
       data.asiste &&
@@ -255,23 +232,51 @@ const Pago = (() => {
     );
   }
 
-  function sync () {
-    cleanupLegacyMarkup();
+  function applyButtonState(btn, disabled) {
+    if (!btn) return;
 
+    if (disabled) {
+      btn.style.background = 'rgba(184,200,224,.28)';
+      btn.style.color = 'rgba(10,22,40,.58)';
+      btn.style.boxShadow = 'none';
+      btn.style.filter = 'saturate(.65)';
+      btn.style.cursor = 'not-allowed';
+      return;
+    }
+
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.boxShadow = '';
+    btn.style.filter = '';
+    btn.style.cursor = '';
+  }
+
+  function sync() {
     const data = Confirmacion.get();
     const habilitado = canConfirmPayment(data);
+    const aviso = get('pago-aviso');
     const btn = get('pago-btn');
     const ok = get('pago-ok');
 
     if (btn) {
       btn.disabled = !habilitado;
       btn.setAttribute('aria-disabled', habilitado ? 'false' : 'true');
+      applyButtonState(btn, !habilitado);
+    }
+
+    if (aviso) {
+      aviso.textContent = habilitado
+        ? 'Ya podes avisar el pago por WhatsApp.'
+        : 'Primero confirma si vas, cuantos son y tu WhatsApp para habilitar este paso.';
+      aviso.style.color = habilitado
+        ? 'rgba(184,200,224,.88)'
+        : 'rgba(205,225,250,.72)';
     }
 
     if (ok) ok.classList.add('hidden');
   }
 
-  function confirmar () {
+  function confirmar() {
     const data = Confirmacion.get();
 
     if (!canConfirmPayment(data)) {
@@ -286,25 +291,15 @@ const Pago = (() => {
       pago: true,
     });
 
-    const mensaje = [
-      'Hola! Te aviso que realice la transferencia para la fiesta de Emma.',
-      `Nombre: ${data.nombre}`,
-      `WhatsApp: ${data.tel}`,
-      `Asistencia: ${data.asiste ? 'Si' : 'No'}`,
-      `Adultos: ${data.adultos || 0}`,
-      `Ninos: ${data.ninos || 0}`,
-    ];
+    const texto = encodeURIComponent(
+      `Hola! Te aviso que realice la transferencia para la fiesta de Emma.\nNombre: ${data.nombre}`
+    );
 
-    if (data.mensaje) {
-      mensaje.push(`Mensaje para Emma: ${data.mensaje}`);
-    }
-
-    const texto = encodeURIComponent(mensaje.join('\n'));
     window.open(`https://wa.me/${WA_NUMBER}?text=${texto}`, '_blank');
     get('pago-ok')?.classList.remove('hidden');
   }
 
-  function init () {
+  function init() {
     sync();
   }
 

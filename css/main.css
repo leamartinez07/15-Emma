@@ -569,6 +569,16 @@ html.splash-open body {
 .payment-row   { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: .9rem; gap: 1rem; }
 .payment-row span:first-child { color: var(--text-muted); flex-shrink: 0; font-weight: 500; }
 .payment-row span:last-child  { color: #fff; font-weight: 600; text-align: right; word-break: break-all; }
+.payment-note {
+  margin: 0 auto 1rem;
+  max-width: 420px;
+  color: rgba(205,225,250,.72);
+  font-family: 'Montserrat', sans-serif;
+  font-size: .78rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.payment-note.is-ready { color: rgba(184,200,224,.88); }
 
 /* ── RSVP ── */
 .deadline-chip {
@@ -686,6 +696,19 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   text-transform: uppercase;
 }
 .whatsapp-btn:hover { filter: brightness(1.12); box-shadow: 0 10px 30px rgba(184,200,224,.42); }
+.whatsapp-btn:disabled,
+.whatsapp-btn.is-disabled {
+  background: rgba(184,200,224,.28);
+  color: rgba(10,22,40,.58);
+  box-shadow: none;
+  filter: saturate(.65);
+  cursor: not-allowed;
+}
+.whatsapp-btn:disabled:hover,
+.whatsapp-btn.is-disabled:hover {
+  filter: saturate(.65);
+  box-shadow: none;
+}
 
 /* ── Reveal animation ── */
 .reveal { opacity: 0; transform: translateY(42px); transition: opacity .8s ease, transform .8s ease; }
