@@ -779,7 +779,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   .hero-divider { margin: 1.8rem 0; }
   .hero-watermark {
     font-size: clamp(13rem, 60vw, 22rem);
-    top: 40%; left: 53%;
+    top: 36%; left: 53%;
     transform: translate(-50%, -50%);
   }
 }
