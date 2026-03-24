@@ -716,7 +716,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 
 /* Tablet range: keep "15" aligned behind Emma as viewport narrows */
 @media(max-width: 900px) and (min-width: 481px) {
-  .hero-watermark { top: 43%; }
+  .hero-watermark { top: 47%; }
 }
 
 /* Tablet 481-768px: proporcional al font 21vw */
