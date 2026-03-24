@@ -104,7 +104,7 @@ html.splash-open body {
   background: radial-gradient(ellipse 80% 55% at 50% 50%, rgba(184,200,224,.07) 0%, transparent 70%);
 }
 .hero-watermark {
-  position: absolute; top: 46%; left: 50%;
+  position: absolute; top: 40%; left: 50%;
   transform: translate(-50%, -50%);  /* center behind Emma name */
   font-family: 'Great Vibes', cursive;
   font-size: clamp(14rem, 48vw, 34rem);
@@ -716,7 +716,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 
 /* Tablet range: keep "15" aligned behind Emma as viewport narrows */
 @media(max-width: 900px) and (min-width: 481px) {
-  .hero-watermark { top: 45%; }
+  .hero-watermark { top: 39%; }
 }
 
 /* Tablet 481-768px: proporcional al font 21vw */
@@ -779,7 +779,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   .hero-divider { margin: 1.8rem 0; }
   .hero-watermark {
     font-size: clamp(13rem, 60vw, 22rem);
-    top: 42%; left: 53%;
+    top: 35%; left: 53%;
     transform: translate(-50%, -50%);
   }
 }
