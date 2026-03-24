@@ -451,7 +451,7 @@
               </div>
               <div class="form-group">
                 <label for="f-tel" class="form-label">WhatsApp <span style="color:rgba(184,200,224,.9);">*</span></label>
-                <input type="tel" id="f-tel" class="form-input" placeholder="Ej: 2622 123456">
+                <input type="tel" id="f-tel" class="form-input" placeholder="Ej: 2622 123456" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')">
               </div>
               <div class="form-group">
                 <label class="form-label">¿Asistís? <span style="color:rgba(184,200,224,.9);">*</span></label>
