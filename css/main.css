@@ -104,7 +104,7 @@ html.splash-open body {
   background: radial-gradient(ellipse 80% 55% at 50% 50%, rgba(184,200,224,.07) 0%, transparent 70%);
 }
 .hero-watermark {
-  position: absolute; top: 44%; left: 50%;
+  position: absolute; top: 48%; left: 50%;
   transform: translate(-50%, -50%);  /* center behind Emma name */
   font-family: 'Great Vibes', cursive;
   font-size: clamp(14rem, 48vw, 34rem);
